@@ -1,5 +1,6 @@
 const Usuario = require("../models/usuarioSchema");
 const { request, response } = require("express");
+const bcrypt = require("bcrypt");
 
 const crearUsuario = async (req = request, res = response) => {
   const { nombre, email, contrasenia } = req.body;
@@ -14,6 +15,9 @@ const crearUsuario = async (req = request, res = response) => {
     }
 
     usuario = new Usuario(req.body);
+
+    const salt = bcrypt.genSaltSync(10);
+    usuario.contrasenia = bcrypt.hashSync(contrasenia, salt);
 
     await usuario.save();
 
