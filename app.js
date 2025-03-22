@@ -1,11 +1,12 @@
-const express = require("express");
-const dbConnection = require("./router/database/config");
-const app = express();
 require("dotenv").config();
+const dbConnection = require("./database/config");
+const express = require("express");
+
+const app = express();
 
 app.use(express.json());
 
-app.use("/auth", require("./router/authRouter"));
+app.use("/usuarios", require("./router/authRouter"));
 
 dbConnection();
 

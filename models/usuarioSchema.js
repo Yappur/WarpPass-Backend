@@ -12,7 +12,7 @@ const UsuarioSchema = Schema({
     unique: true,
     trim: true,
   },
-  password: {
+  contrasenia: {
     type: String,
     required: [true, "La contraseña es obligatoria"],
   },
