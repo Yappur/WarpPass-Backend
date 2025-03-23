@@ -6,26 +6,32 @@ const EventoSchema = Schema({
     required: [true, "El nombre es obligatorio"],
     trim: true,
   },
-  fecha: {
-    type: Date,
-    required: [true, "La fecha es obligatoria"],
-  },
-  hora: {
+  descripcion: {
     type: String,
-    required: [true, "La hora es obligatoria"],
+    required: [true, "La descripcion es obligatoria"],
   },
   lugar: {
     type: String,
     required: [true, "El lugar es obligatorio"],
   },
-  descripcion: {
+  precio: {
+    type: Number,
+    required: [true, "El precio es obligatorio"],
+  },
+  cantidad: {
+    type: Number,
+    required: [true, "La Cantidad es obligatoria"],
+  },
+  fecha: {
+    type: Date,
+    // required: [true, "La fecha es obligatoria"],
+  },
+  hora: {
     type: String,
+    // required: [true, "La hora es obligatoria"],
   },
   imagen: {
     type: String,
-  },
-  precio: {
-    type: Number,
   },
 });
 
