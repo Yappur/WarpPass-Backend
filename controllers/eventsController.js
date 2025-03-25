@@ -31,7 +31,7 @@ const crearEvento = async (req = request, res = response) => {
 
     res.status(201).json({ msg: "Evento Creado" });
   } catch (error) {
-    res.status(500).json({ msg: "Error al crear el evento" });
+    res.status(500).json({ msg: "Por favor contactarse con un administrador" });
   }
 };
 
@@ -40,8 +40,22 @@ const obtenerEventos = async (req = request, res = response) => {
     const obtenerEventos = await Evento.find();
     res.status(200).json(obtenerEventos);
   } catch (error) {
-    res.status(500).json({ msg: "Error al obtener los eventos" });
+    res.status(500).json({ msg: "Por favor contactarse con un administrador" });
   }
 };
 
-module.exports = { crearEvento, obtenerEventos };
+const eliminarEvento = async (req = request, res = response) => {
+  try {
+    const eventoEliminar = await Evento.findById(req.params.id);
+    if (!eventoEliminar) {
+      return res.status(400).json({ msg: "Evento no encontrado" });
+    }
+
+    await Evento.findByIdAndDelete(req.params.id);
+    res.status(200).json({ msg: "Evento Eliminado" });
+  } catch (error) {
+    res.status(500).json({ msg: "Por favor contactarse con un administrador" });
+  }
+};
+
+module.exports = { crearEvento, obtenerEventos, eliminarEvento };
