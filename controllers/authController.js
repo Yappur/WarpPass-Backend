@@ -54,8 +54,5 @@ const loginUsuario = async (req = request, res = response) => {
     res.status(500).json({ msg: "Error al iniciar sesion" });
   }
 };
-const obtenerUsuario = (req = request, res = response) => {
-  res.send("Usuario Obtenido");
-};
 
-module.exports = { crearUsuario, obtenerUsuario, loginUsuario };
+module.exports = { crearUsuario, loginUsuario };
