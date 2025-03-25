@@ -3,7 +3,7 @@ const { request, response } = require("express");
 
 const obtenerUsuarios = async (req = request, res = response) => {
   const obtenerUsuarios = await Usuario.find();
-  console.log(obtenerUsuarios);
+  res.status(200).json(obtenerUsuarios);
 };
 
 module.exports = { obtenerUsuarios };

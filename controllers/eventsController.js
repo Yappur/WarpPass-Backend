@@ -11,7 +11,10 @@ const crearEvento = async (req = request, res = response) => {
       !descripcion ||
       precio === undefined ||
       cantidad === undefined ||
-      !lugar
+      !lugar ||
+      !imagen ||
+      !fecha ||
+      !hora
     ) {
       return res.status(400).json({ msg: "Todos los campos son obligatorios" });
     }
@@ -22,7 +25,7 @@ const crearEvento = async (req = request, res = response) => {
         .json({ msg: "Precio o Cantidad ingresados incorrectamente" });
     }
 
-    let evento = new Evento(req.body);
+    const evento = new Evento(req.body);
 
     await evento.save();
 
@@ -32,4 +35,13 @@ const crearEvento = async (req = request, res = response) => {
   }
 };
 
-module.exports = { crearEvento };
+const obtenerEventos = async (req = request, res = response) => {
+  try {
+    const obtenerEventos = await Evento.find();
+    res.status(200).json(obtenerEventos);
+  } catch (error) {
+    res.status(500).json({ msg: "Error al obtener los eventos" });
+  }
+};
+
+module.exports = { crearEvento, obtenerEventos };
