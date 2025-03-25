@@ -6,8 +6,20 @@ const crearEvento = async (req = request, res = response) => {
     req.body;
 
   try {
-    if (!titulo || !descripcion || !precio || !cantidad || !lugar) {
+    if (
+      !titulo ||
+      !descripcion ||
+      precio === undefined ||
+      cantidad === undefined ||
+      !lugar
+    ) {
       return res.status(400).json({ msg: "Todos los campos son obligatorios" });
+    }
+
+    if (cantidad <= 0 || precio <= 0) {
+      return res
+        .status(400)
+        .json({ msg: "Precio o Cantidad ingresados incorrectamente" });
     }
 
     let evento = new Evento(req.body);

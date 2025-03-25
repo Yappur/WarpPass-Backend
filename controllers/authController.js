@@ -27,12 +27,35 @@ const crearUsuario = async (req = request, res = response) => {
   }
 };
 
+const loginUsuario = async (req = request, res = response) => {
+  const { email, contrasenia } = req.body;
+
+  if (!email || !contrasenia) {
+    return res.status(400).json({ msg: "Todos los campos son obligatorios" });
+  }
+
+  try {
+    let usuario = await Usuario.findOne({ email });
+    if (!usuario) {
+      return res.status(400).json({
+        msg: "Correo o contraseña no son correctos",
+      });
+    }
+
+    const validPassword = bcrypt.compareSync(contrasenia, usuario.contrasenia);
+    if (!validPassword) {
+      return res.status(400).json({
+        msg: "Correo o contraseña no son correctos",
+      });
+    }
+
+    res.status(200).json({ msg: "Sesion Iniciada" });
+  } catch (error) {
+    res.status(500).json({ msg: "Error al iniciar sesion" });
+  }
+};
 const obtenerUsuario = (req = request, res = response) => {
   res.send("Usuario Obtenido");
-};
-
-const loginUsuario = (req = request, res = response) => {
-  res.json({ modal: "success", msg: "Usuario Logueado" });
 };
 
 module.exports = { crearUsuario, obtenerUsuario, loginUsuario };
