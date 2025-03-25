@@ -1,6 +1,7 @@
 const Usuario = require("../models/usuarioSchema");
 const { request, response } = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const crearUsuario = async (req = request, res = response) => {
   const { nombre, email, contrasenia } = req.body;
@@ -49,7 +50,18 @@ const loginUsuario = async (req = request, res = response) => {
       });
     }
 
-    res.status(200).json({ msg: "Sesion Iniciada" });
+    const payload = {
+      nombre: usuario.nombre,
+      email: usuario.email,
+      id: usuario._id,
+      rol: usuario.rol,
+    };
+
+    const token = jwt.sign(payload, process.env.SECRET_KEY, {
+      expiresIn: "12h",
+    });
+
+    res.status(200).json({ msg: "Sesion Iniciada", token });
   } catch (error) {
     res.status(500).json({ msg: "Error al iniciar sesion" });
   }

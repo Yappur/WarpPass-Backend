@@ -16,7 +16,7 @@ const UsuarioSchema = Schema({
     type: String,
     required: [true, "La contraseña es obligatoria"],
   },
-  role: {
+  rol: {
     type: String,
     default: "usuario",
     enum: ["usuario", "productor", "admin"],
