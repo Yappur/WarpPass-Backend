@@ -1,4 +1,5 @@
 const express = require("express");
+const routerEvent = express.Router();
 
 const {
   crearEvento,
@@ -7,12 +8,12 @@ const {
   editarEvento,
   eliminarEvento,
 } = require("../controllers/eventsController");
-const routerEvent = express.Router();
+const verificarToken = require("../middlewares/verificarToken");
 
-routerEvent.post("/crearEvento", crearEvento);
+routerEvent.post("/crearEvento", verificarToken, crearEvento);
 routerEvent.get("/obtenerEventos", obtenerEventos);
 // routerEvent.get("/obtenerEventoPorId", obtenerEventoPorId);
-routerEvent.put("/editarEvento/:id", editarEvento);
-routerEvent.delete("/eliminarEvento/:id", eliminarEvento);
+routerEvent.put("/editarEvento/:id", verificarToken, editarEvento);
+routerEvent.delete("/eliminarEvento/:id", verificarToken, eliminarEvento);
 
 module.exports = routerEvent;
