@@ -46,13 +46,13 @@ const obtenerEventos = async (req = request, res = response) => {
 
 const editarEvento = async (req = request, res = response) => {
   try {
-    const eventoEditar = await Evento.findById(req.body._id);
+    const eventoEditar = await Evento.findById(req.body.id);
 
     if (!eventoEditar) {
       return res.status(400).json({ msg: "Evento no encontrado con este ID" });
     }
 
-    await Evento.findByIdAndUpdate(req.body._id, req.body);
+    await Evento.findByIdAndUpdate(req.body.id, req.body);
     res.status(200).json({ msg: "Evento Editado" });
   } catch (error) {
     res.status(500).json({ msg: "Por favor contactarse con un administrador" });

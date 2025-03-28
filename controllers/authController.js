@@ -61,7 +61,7 @@ const loginUsuario = async (req = request, res = response) => {
       expiresIn: "12h",
     });
 
-    res.status(200).json({ msg: "Sesion Iniciada", token });
+    res.status(200).json({ msg: "Sesion Iniciada", token, rol: payload.rol });
   } catch (error) {
     res.status(500).json({ msg: "Error al iniciar sesion" });
   }
