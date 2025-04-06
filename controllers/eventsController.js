@@ -44,16 +44,35 @@ const obtenerEventos = async (req = request, res = response) => {
   }
 };
 
+const obtenerEventoPorId = async (req = request, res = response) => {
+  try {
+    const obtenerEventoPorId = await Evento.findById(req.params.id);
+
+    if (!obtenerEventoPorId) {
+      return res.status(400).json({ msg: "Evento no encontrado con este ID" });
+    }
+
+    res.status(200).json(obtenerEventoPorId);
+  } catch (error) {
+    res.status(500).json({ msg: "Por favor contactarse con un administrador" });
+  }
+};
+
 const editarEvento = async (req = request, res = response) => {
   try {
-    const eventoEditar = await Evento.findById(req.body.id);
+    const eventoEditar = await Evento.findById(req.params.id);
 
     if (!eventoEditar) {
       return res.status(400).json({ msg: "Evento no encontrado con este ID" });
     }
 
-    await Evento.findByIdAndUpdate(req.body.id, req.body);
-    res.status(200).json({ msg: "Evento Editado" });
+    const eventoActualizado = await Evento.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    res.status(200).json(eventoActualizado);
   } catch (error) {
     res.status(500).json({ msg: "Por favor contactarse con un administrador" });
   }
@@ -73,4 +92,10 @@ const eliminarEvento = async (req = request, res = response) => {
   }
 };
 
-module.exports = { crearEvento, obtenerEventos, editarEvento, eliminarEvento };
+module.exports = {
+  crearEvento,
+  obtenerEventos,
+  obtenerEventoPorId,
+  editarEvento,
+  eliminarEvento,
+};
