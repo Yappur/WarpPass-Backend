@@ -35,6 +35,29 @@ const obtenerUsuarioPorToken = async (req = request, res = response) => {
   }
 };
 
+const cambiarRolUsuario = async (req = request, res = response) => {
+  const { id } = req.params;
+  const { rol } = req.body;
+  try {
+    const usuario = await Usuario.findById(id);
+
+    if (!usuario) {
+      return res.status(400).json({ msg: "Usuario no encontrado con este ID" });
+    }
+
+    if (!["usuario", "productor", "admin"].includes(rol)) {
+      return res.status(400).json({ msg: "Rol no válido" });
+    }
+
+    usuario.rol = rol;
+    await usuario.save();
+
+    res.status(200).json({ msg: "Rol actualizado", usuario });
+  } catch (error) {
+    res.status(500).json({ msg: "Por favor contactarse con un administrador" });
+  }
+};
+
 const eliminarUsuario = async (req = request, res = response) => {
   try {
     const usuarioEliminar = await Usuario.findById(req.params.id);
@@ -52,5 +75,6 @@ module.exports = {
   obtenerUsuarios,
   obtenerUsuariosPorId,
   obtenerUsuarioPorToken,
+  cambiarRolUsuario,
   eliminarUsuario,
 };
