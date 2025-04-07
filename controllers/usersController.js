@@ -35,8 +35,22 @@ const obtenerUsuarioPorToken = async (req = request, res = response) => {
   }
 };
 
+const eliminarUsuario = async (req = request, res = response) => {
+  try {
+    const usuarioEliminar = await Usuario.findById(req.params.id);
+    if (!usuarioEliminar) {
+      return res.status(400).json({ msg: "Usuario no encontrado con este ID" });
+    }
+    await Usuario.findByIdAndDelete(req.params.id);
+    res.status(200).json({ msg: "Usuario Eliminado" });
+  } catch (error) {
+    res.status(500).json({ msg: "Por favor contactarse con un administrador" });
+  }
+};
+
 module.exports = {
   obtenerUsuarios,
   obtenerUsuariosPorId,
   obtenerUsuarioPorToken,
+  eliminarUsuario,
 };
