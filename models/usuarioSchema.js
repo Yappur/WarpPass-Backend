@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const findOrCreate = require("mongoose-findorcreate");
 
 const UsuarioSchema = Schema({
   nombre: {
@@ -14,7 +15,14 @@ const UsuarioSchema = Schema({
   },
   contrasenia: {
     type: String,
-    required: [true, "La contraseña es obligatoria"],
+    required: function () {
+      return !this.googleId;
+    },
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
   },
   rol: {
     type: String,
@@ -22,5 +30,7 @@ const UsuarioSchema = Schema({
     enum: ["usuario", "productor", "admin"],
   },
 });
+
+UsuarioSchema.plugin(findOrCreate);
 
 module.exports = model("Usuario", UsuarioSchema);
